@@ -1,0 +1,19 @@
+static int		key_hook(void)
+{
+    char buffer[3];
+
+    read(STDIN_FILENO, buffer, 3);
+    return (*(int*)buffer);
+}
+
+^[-805306341^[[C-800892133
+
+static int		key_hook(void)
+{
+    char buffer[3];
+
+    read(STDIN_FILENO, buffer, 3);
+    return ((int)buffer);
+}
+
+^[1423697053^[[C1423697053

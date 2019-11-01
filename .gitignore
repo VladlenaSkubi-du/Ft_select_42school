@@ -16,6 +16,7 @@
 *.gch
 *.pch
 
+ft_select
 # Libraries
 *.lib
 *.a
