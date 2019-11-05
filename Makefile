@@ -4,6 +4,8 @@ FLAGS = -Wall #-Werror -Wextra
 FLAGS += -g
 
 SOURCES =	main.c \
+			terminal_changes.c \
+			args_processing.c \
 			readline.c \
 			errors_output.c \
 			help_functions.c 

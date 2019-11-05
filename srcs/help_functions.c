@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 16:09:50 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/01 19:31:26 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/05 18:39:56 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,9 @@ char		*ft_straddsy(char *dest, char sy)
 		i++;
 	dest[i] = sy;
 	return (dest);
+}
+
+int			ft_putint(int c)
+{
+	return (write(1, &c, 1));
 }
