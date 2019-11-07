@@ -5,7 +5,10 @@ FLAGS += -g
 
 SOURCES =	main.c \
 			terminal_changes.c \
+			selection_process.c \
+			args_initiation.c \
 			args_processing.c \
+			underline_inverse_video.c \
 			readline.c \
 			errors_output.c \
 			help_functions.c 
@@ -30,7 +33,7 @@ $(NAME): $(OBJS)
 
 $(OBJS): $(DIR_O)/%.o: $(DIR_S)/%.c includes/ft_select.h
 	@mkdir -p $(DIR_O)
-	@gcc $(FLAGS) -c -I includes -o $@ $<
+	gcc $(FLAGS) -c -I includes -o $@ $<
 
 clean:
 	@echo "\033[34mDeleting ft_select o-files\033[0m"

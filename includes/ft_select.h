@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 14:42:08 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/05 20:37:41 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/07 20:16:38 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,13 @@ typedef struct		s_args
 {
 	char			*arg;
 	short			selected;
-	short			cursor;
+	short			underline;
+	unsigned int	x;
+	unsigned int	y;
+	size_t			len;
 	struct s_args	*next;
 	struct s_args	*prev;
 }					t_args;
-
 
 /*
 ** File terminal_changes.c
@@ -49,18 +51,48 @@ typedef struct		s_args
 
 int					terminal_init_start(int argc, char **argv);
 void				reset_canonical_input(struct termios save_terminal_mode);
-char				*start_selection(int argc, char **argv);
-char				*read_commands(t_args *list);
-int					key_hook(void);
+void				make_fullscreen(void);
+void				reset_terminal_mode(void);
+
+/*
+** File selection_process.c
+*/
+
+char				*start_selection(int argc, const char **argv);
+
+/*
+** File args_initiation.c
+*/
+
+t_args				*save_arguments(int argc, const char **argv);
+t_args				*init_first_argument(const char *argument);
+void				init_next_argument(t_args *current,
+						const char *argument, short flag);
+void				sort_arguments(t_args *list, int total); //make sorting
 
 /*
 ** File args_processing.c
 */
 
-t_args				*save_arguments(int argc, char **argv);
-void				init_argument(t_args *current, char *argument, short flag);
-void				output_arguments(t_args *list);
+int					args_total(const t_args *list);
+void				position_and_output_arguments(const t_args *list);
+t_args				*delete_argument(t_args *list, t_args *selected);
 void				clean_arguments(t_args *list);
+
+/*
+** File underline_inverse_video.c
+*/
+
+void				underline_on(void);
+void				underline_off(void);
+
+/*
+** File readline.c
+*/
+
+char				*read_commands(t_args *list);
+int					key_hook(void);
+void				move_up_down_right_left(t_args *list, char flag);
 
 /*
 ** File errors_output.c

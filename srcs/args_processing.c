@@ -6,75 +6,86 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 18:25:47 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/05 20:44:10 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/07 20:17:14 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-//nothing works
+//need functions: selected argument from the array
+//replace all the arguments if screen changes
 
-void			init_argument(t_args *current, char *argument, short flag)
+int				args_total(const t_args *list)
 {
-	if (flag == 0)
-	{
-		current->arg = ft_strdup(argument);
-		current->next = current;
-		current->prev = current;
-	}
-	else if (flag == 1)
-	{
-		current->next = ft_xmalloc(sizeof(t_args*));
-		current->next->arg = ft_strdup(argument);
-		current->next->prev = current;
-		current->prev->next = current;
-	}
-	else
-	{
-		current->next = ft_xmalloc(sizeof(t_args*));
-		current->next->arg = ft_strdup(argument);
-		current->next->prev = current;
-		current->next->next = current->prev;
-		current->prev->next = current->next;
-	}
-	current->selected = 0;
-	current->cursor = 0;
-}
-
-t_args			*save_arguments(int argc, char **argv)
-{
-	t_args		*list;
 	t_args		*run;
-	size_t		i;
-
-	list = ft_xmalloc(sizeof(t_args*));
-	run = list;
-	i = 0;
-	while (i < argc)
+	int			total;
+	
+	run = (t_args*)list;
+	total = 0;
+	while (run->next != list)
 	{
-		init_argument(run, argv[i], i);
-		run = (i > 0) ? run->next : run;
-		i++;
+		total++;
+		run = run->next;
 	}
-	return (list);
+	return (total + 1);
 }
 
-void			output_arguments(t_args *list)
+void			position_and_output_arguments(const t_args *list)
 {
 	t_args		*run;
 	size_t		i;
 
-	run = list;
+	if (list == NULL)
+		return ;
+	run = (t_args*)list;
 	i = 0;
 	while (i < 6)
 	{
-		ft_putendl(run->arg);
+		if (run->underline == 1)
+		{
+			underline_on();
+			ft_putendl_fd(run->arg, 1);
+			underline_off();
+		}
+		else
+			ft_putendl_fd(run->arg, 1);
 		run = run->next;
 		i++;
 	}
 }
 
-void			clean_arguments(t_args *list)
+t_args			*delete_argument(t_args *list, t_args *selected)
 {
+	t_args		*save;
 	
+	save = selected->next;
+	if (list == selected)
+	{
+		free(selected->arg);
+		free(selected);
+		return (NULL);
+	}
+	else if (list->next == selected && list->prev == selected)
+	{
+		list->next = list;
+		list->prev = list;
+	}
+	else
+	{
+		selected->prev->next = save;
+		save->prev = selected->prev;
+	}
+	free(selected->arg);
+	free(selected);
+	save->underline = 1;
+	return (save);
+}
+
+void			clean_arguments(t_args *list) 
+{
+	t_args		*run;
+
+	run = list;
+	while (run != NULL)
+		run = delete_argument(list, list->next);
 }
