@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:51:01 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/07 17:15:28 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/08 14:07:23 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void			make_fullscreen(void)
 	buffer = buf;
 	tputs(tgetstr("ti", &buffer), 1, ft_putint);
 	tputs(tgetstr("vi", &buffer), 1, ft_putint);
-	//tputs(tgetstr("cl", &buffer), 1, ft_putint);
+	tputs(tgetstr("cl", &buffer), 1, ft_putint);
 	buffer = buf;
 }
 

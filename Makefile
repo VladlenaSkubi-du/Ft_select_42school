@@ -8,8 +8,10 @@ SOURCES =	main.c \
 			selection_process.c \
 			args_initiation.c \
 			args_processing.c \
+			movement_dir_keys.c \
 			underline_inverse_video.c \
 			readline.c \
+			bonus_functionalities.c \
 			errors_output.c \
 			help_functions.c 
 

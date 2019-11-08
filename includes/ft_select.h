@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 14:42:08 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/07 20:16:38 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/08 16:26:00 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,17 @@ void				sort_arguments(t_args *list, int total); //make sorting
 int					args_total(const t_args *list);
 void				position_and_output_arguments(const t_args *list);
 t_args				*delete_argument(t_args *list, t_args *selected);
-void				clean_arguments(t_args *list);
+void				free_arguments(t_args *list);
+
+/*
+** File movement_dir_keys.c
+*/
+
+void				make_movements(t_args *list, int key); //till the end
+t_args				*move_up_A(t_args *under);
+t_args				*move_down_B(t_args *under);
+t_args				*move_right_C(t_args *under);
+t_args				*move_left_D(t_args *under);
 
 /*
 ** File underline_inverse_video.c
@@ -85,6 +95,7 @@ void				clean_arguments(t_args *list);
 
 void				underline_on(void);
 void				underline_off(void);
+void				position_and_clear_arg(int x, int y, size_t len);
 
 /*
 ** File readline.c
@@ -92,7 +103,12 @@ void				underline_off(void);
 
 char				*read_commands(t_args *list);
 int					key_hook(void);
-void				move_up_down_right_left(t_args *list, char flag);
+
+/*
+** File bonus_functionalities.c
+*/
+
+void				bell_sound(t_args *under);
 
 /*
 ** File errors_output.c
@@ -108,5 +124,6 @@ int             	terminal_errors(int flag);
 void		    	*ft_xmalloc(size_t size);
 char            	*ft_straddsy(char *dest, char sy);
 int					ft_putint(int c);
+t_args				*find_list(t_args *list, char flag);
 
 #endif

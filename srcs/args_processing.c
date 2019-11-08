@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 18:25:47 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/07 20:17:14 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/08 15:19:27 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,14 @@ void			position_and_output_arguments(const t_args *list)
 {
 	t_args		*run;
 	size_t		i;
+	int			total;
 
 	if (list == NULL)
 		return ;
 	run = (t_args*)list;
 	i = 0;
-	while (i < 6)
+	total = args_total((const t_args*)list);
+	while (i < total)
 	{
 		if (run->underline == 1)
 		{
@@ -81,7 +83,7 @@ t_args			*delete_argument(t_args *list, t_args *selected)
 	return (save);
 }
 
-void			clean_arguments(t_args *list) 
+void			free_arguments(t_args *list) 
 {
 	t_args		*run;
 
