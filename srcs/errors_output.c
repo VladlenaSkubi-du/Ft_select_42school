@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/01 19:50:30 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/05 17:00:41 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/12 20:54:57 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,15 @@ int         terminal_errors(int flag)
 	else if (flag == 1)
 		ft_putendl_fd("Can't change terminal and start the program.", 2);
 	return (1);
+}
+
+/*
+** Describes errors-messages: after such messages the program does not do
+** exit but waits for the necessary action.
+*/
+
+void		message_resize(void)
+{
+	ft_putendl_fd("Not enough space for the arguments output. ", 2);
+	ft_putendl_fd("Please, resize the terminal window.", 2);
 }

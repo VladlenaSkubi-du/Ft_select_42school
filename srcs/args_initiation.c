@@ -6,27 +6,33 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 17:31:44 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/07 18:31:21 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/12 19:46:54 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-t_args			*save_arguments(int argc, const char **argv)
+t_args			*save_arguments(size_t *max_len, int argc, const char **argv)
 {
 	t_args		*list;
 	t_args		*run;
 	size_t		i;
-
+	
 	list = init_first_argument(argv[0]);
+	*max_len = list->len;
 	run = list;
 	i = 0;
 	while (++i < argc)
 	{
 		init_next_argument(run, argv[i], i);
+		if (run->len > *max_len)
+			*max_len = run->len;
 		run = run->next;
 	}
 	sort_arguments(list, argc);
+	*max_len = (*max_len == 8) ? (*max_len)++ : *max_len;
+		while (*max_len % 8 != 0)
+			(*max_len)++;
 	return (list);
 }
 

@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 12:23:25 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/05 20:24:17 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/12 18:51:55 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 int				main(int argc, char **argv)
 {
 	char			*termtype;
-	char			room_termtype[2048];
+	char			room_termtype[1024];
 
 	if (!isatty(STDIN_FILENO))
-		return (1);
+		return(1);
 	if (argc < 2)
 		return (usage());
 	termtype = getenv("TERM");

@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 14:42:08 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/08 16:26:00 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/12 21:19:28 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <signal.h>
 
 # include <stdio.h>      //DELETE
+
 # include <string.h>
 
 # include "libft.h"
@@ -59,23 +60,31 @@ void				reset_terminal_mode(void);
 */
 
 char				*start_selection(int argc, const char **argv);
+void				select_element(t_args *list);
 
 /*
 ** File args_initiation.c
 */
 
-t_args				*save_arguments(int argc, const char **argv);
+t_args				*save_arguments(size_t *max_len, int argc, const char **argv);
 t_args				*init_first_argument(const char *argument);
 void				init_next_argument(t_args *current,
 						const char *argument, short flag);
 void				sort_arguments(t_args *list, int total); //make sorting
 
 /*
+** File position_arg_in_term.c
+*/
+
+int					calculate_position(t_args *list, int total, size_t max_len);
+void				fill_in_position(t_args *list, int term_lines, int max_len);
+
+/*
 ** File args_processing.c
 */
 
-int					args_total(const t_args *list);
-void				position_and_output_arguments(const t_args *list);
+int					args_total(const t_args *list, const t_args *under);
+void				output_arguments(const t_args *list, const t_args *under);
 t_args				*delete_argument(t_args *list, t_args *selected);
 void				free_arguments(t_args *list);
 
@@ -84,18 +93,27 @@ void				free_arguments(t_args *list);
 */
 
 void				make_movements(t_args *list, int key); //till the end
-t_args				*move_up_A(t_args *under);
-t_args				*move_down_B(t_args *under);
-t_args				*move_right_C(t_args *under);
-t_args				*move_left_D(t_args *under);
+t_args				*move_up_a(t_args *under, int video);
+t_args				*move_down_b(t_args *under, int video);
+t_args				*move_right_c(t_args *under, int video);
+t_args				*move_left_d(t_args *under, int video);
 
 /*
-** File underline_inverse_video.c
+** File termcap position.c
+*/
+
+void				output_element(char *element);
+void				position_cursor(int x, int y);
+void				position_and_clear_element(int x, int y, size_t len);
+
+/*
+** File termcap_underline_inverse_video.c
 */
 
 void				underline_on(void);
 void				underline_off(void);
-void				position_and_clear_arg(int x, int y, size_t len);
+void				inverse_video_on(void);
+void				inverse_video_off(void);
 
 /*
 ** File readline.c
@@ -116,6 +134,7 @@ void				bell_sound(t_args *under);
 
 int             	usage(void);
 int             	terminal_errors(int flag);
+void				message_resize(void);
 
 /*
 ** File help_fucntions.c
