@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 14:58:09 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/12 21:21:56 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/14 13:26:05 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ void			position_cursor(int x, int y)
 	tputs(tgoto(tgetstr("cm", &buffer), x, y), 1, ft_putint);
 	buffer = buf;
 }
+
+/*
+** Terminal capability `ec` needs only the length of the argument
+** therefore, in tgoto we input the only parameter it needs on the
+** last position (instead of vpos)
+*/
 
 void			position_and_clear_element(int x, int y, size_t len)
 {

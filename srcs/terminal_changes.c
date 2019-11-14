@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:51:01 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/12 21:16:13 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/14 15:24:30 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ int				terminal_init_start(int argc, char **argv)
 		reset_canonical_input(save_terminal_mode);
 		return (-1);
 	}
-	result = start_selection(argc, (const char**)argv);
+	redirect_signals();
+	result = main_start_selection(argc, (const char**)argv);
 	reset_canonical_input(save_terminal_mode);
-	if (result != NULL)
-		ft_putendl_fd(result, 1);
+	ft_putendl_fd(result, 1);
 	free(result);
 	return (0);
 }

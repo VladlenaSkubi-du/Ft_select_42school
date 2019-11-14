@@ -6,20 +6,17 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 18:25:47 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/12 21:13:21 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/14 15:07:17 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-//need functions: selected argument from the array
-//replace all the arguments if screen changes
-
 int				args_total(const t_args *list, const t_args *under)
 {
 	t_args		*run;
 	int			total;
-	
+
 	run = (t_args*)under;
 	total = 0;
 	while (run->next != list)
@@ -34,30 +31,51 @@ void			output_arguments(const t_args *list, const t_args *under)
 {
 	t_args		*run;
 	int			total;
-	int			i;
+	size_t		i;
 
 	if (list == NULL)
 		return ;
 	run = (t_args*)under;
 	total = args_total((const t_args*)list, under);
 	i = 0;
-	underline_on();
-	ft_putstr_fd(run->arg, 2);
-	underline_off();
-	while (++i < total)
+	while (i < total)
 	{
-		run = run->next;
+		if (run->selected == 1)
+			inverse_video_on();
+		else
+			inverse_video_off();
+		if (run->underline == 1)
+			underline_on();
+		else
+			underline_off();
 		position_cursor(run->x, run->y);
 		ft_putstr_fd(run->arg, 2);
+		i++;
+		run = run->next;
 	}
+}
+
+t_args			*find_list(t_args *list, char flag)
+{
+	t_args		*needed;
+
+	needed = list;
+	if (flag == 'u')
+	{
+		while (needed->underline != 1)
+			needed = needed->next;
+	}
+	return (needed);
 }
 
 t_args			*delete_argument(t_args *list, t_args *selected)
 {
 	t_args		*save;
-	
+	int			total;
+
 	save = selected->next;
-	if (list == selected)
+	total = args_total(list, selected);
+	if (list == selected && total == 1)
 	{
 		free(selected->arg);
 		free(selected);
@@ -79,7 +97,7 @@ t_args			*delete_argument(t_args *list, t_args *selected)
 	return (save);
 }
 
-void			free_arguments(t_args *list) 
+void			free_arguments(t_args *list)
 {
 	t_args		*run;
 

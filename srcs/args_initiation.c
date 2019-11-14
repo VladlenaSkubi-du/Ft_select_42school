@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 17:31:44 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/12 19:46:54 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/14 14:55:04 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@ t_args			*save_arguments(size_t *max_len, int argc, const char **argv)
 	t_args		*list;
 	t_args		*run;
 	size_t		i;
-	
+
 	list = init_first_argument(argv[0]);
 	*max_len = list->len;
 	run = list;
 	i = 0;
 	while (++i < argc)
 	{
+		if (ft_strtrim(argv[i]) == NULL)
+			continue ;
 		init_next_argument(run, argv[i], i);
 		if (run->len > *max_len)
 			*max_len = run->len;
@@ -31,15 +33,15 @@ t_args			*save_arguments(size_t *max_len, int argc, const char **argv)
 	}
 	sort_arguments(list, argc);
 	*max_len = (*max_len == 8) ? (*max_len)++ : *max_len;
-		while (*max_len % 8 != 0)
-			(*max_len)++;
+	while (*max_len % 8 != 0)
+		(*max_len)++;
 	return (list);
 }
 
 t_args			*init_first_argument(const char *argument)
 {
 	t_args		*list;
-	
+
 	list = ft_xmalloc(sizeof(t_args));
 	list->arg = ft_strdup(argument);
 	list->len = ft_strlen(argument);
@@ -57,7 +59,7 @@ void			init_next_argument(t_args *current,
 {
 	t_args		*tmp;
 	t_args		*save;
-	
+
 	tmp = ft_xmalloc(sizeof(t_args));
 	tmp->arg = ft_strdup(argument);
 	tmp->len = ft_strlen(argument);
@@ -84,5 +86,5 @@ void			init_next_argument(t_args *current,
 
 void			sort_arguments(t_args *list, int total) //make sorting from ls
 {
-	
+	return ;
 }

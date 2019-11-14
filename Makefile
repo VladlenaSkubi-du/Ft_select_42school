@@ -5,14 +5,15 @@ FLAGS += -g
 
 SOURCES =	main.c \
 			terminal_changes.c \
-			selection_process.c \
+			signals_processing.c \
+			readline.c \
 			args_initiation.c \
-			position_arg_in_term.c \
+			args_position_calculation.c \
 			args_processing.c \
-			movement_dir_keys.c \
+			keys_movement_dir.c \
+			keys_bs_del_select.c \
 			termcap_position.c \
 			termcap_underline_inverse_video.c \
-			readline.c \
 			bonus_functionalities.c \
 			errors_output.c \
 			help_functions.c 

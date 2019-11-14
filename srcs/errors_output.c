@@ -6,19 +6,19 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/01 19:50:30 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/12 20:54:57 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/14 15:03:10 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-int         usage(void)
+int			usage(void)
 {
 	ft_putendl_fd("usage: ft_select [argv1] [argv2] ...", 1);
 	return (0);
 }
 
-int         terminal_errors(int flag)
+int			terminal_errors(int flag)
 {
 	if (flag == 0)
 	{
