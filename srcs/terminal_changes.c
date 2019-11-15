@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:51:01 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/14 15:24:30 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/15 18:39:59 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,19 @@ int				terminal_init_start(int argc, char **argv)
 	if (tcgetattr(STDIN_FILENO, &tty) < 0)
 		return (-1);
 	save_terminal_mode = tty;
-	tty.c_lflag &= ~(ICANON | ECHO | ISIG); //add ECHO and ISIG
+	tty.c_lflag &= ~(ICANON | ECHO | ISIG);
 	tty.c_cc[VMIN] = 1;
 	tty.c_cc[VTIME] = 1;
 	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &tty) < 0)
 		exit(1);
 	if (tcgetattr(STDIN_FILENO, &tty) < 0 ||
-		((tty.c_lflag & (ICANON | ECHO | ISIG) || //add ECHO and ISIG
+		((tty.c_lflag & (ICANON | ECHO | ISIG) || 
 		tty.c_cc[VMIN] != 1 || tty.c_cc[VTIME] != 1)))
 	{
 		reset_canonical_input(save_terminal_mode);
 		return (-1);
 	}
-	redirect_signals();
+	//save_for_exit(NULL, save_terminal_mode);
 	result = main_start_selection(argc, (const char**)argv);
 	reset_canonical_input(save_terminal_mode);
 	ft_putendl_fd(result, 1);
@@ -70,14 +70,14 @@ void			reset_canonical_input(struct termios save_terminal_mode)
 
 void			make_fullscreen(void)
 {
-	char		buf[50];
+	char		buf[30];
 	char		*buffer;
 
 	buffer = buf;
 	tputs(tgetstr("ti", &buffer), 1, ft_putint);
 	tputs(tgetstr("vi", &buffer), 1, ft_putint);
-	tputs(tgetstr("cl", &buffer), 1, ft_putint);
 	buffer = buf;
+	clean_screen();
 }
 
 /*

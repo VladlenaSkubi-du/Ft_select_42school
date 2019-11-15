@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 12:23:25 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/15 16:13:05 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/15 18:35:55 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,21 @@ char			*main_start_selection(int argc, const char **argv)
 	t_args		*list;
 	char		*result;
 	size_t		max_len;
+	int			flag;
 
-	list = save_arguments(&max_len, argc, argv);
+	flag = 0;
+	redirect_signals();
 	make_fullscreen();
-	//придумать, как обработать и куда вставить сигнал
-	if (calculate_position(list, argc, max_len) == 1)
-		output_arguments((const t_args*)list, (const t_args*)list);
-	else
-		message_resize();
-	result = read_commands(&list, argc);
+	list = save_arguments(&max_len, argc, argv);
+	resize_monitor(list, argc, max_len, &flag);
+	result = read_commands(&list, &flag);
 	reset_terminal_mode();
-	// if (result != NULL)
-	// {
-	// 	ft_putendl_fd(result, 1);
-	// 	free(result);
-	// }
-	// else
-	// 	ft_putchar_fd('\n', 1);
 	if (list != NULL)
 		free_arguments(list);
 	return (result);
 }
 
-char			*generate_selected_line(t_args *list, int argc, char *result)
+char			*generate_selected_line(t_args *list, char *result)
 {
 	char		**pointers;
 	size_t		i;
@@ -65,7 +57,7 @@ char			*generate_selected_line(t_args *list, int argc, char *result)
 
 	total = 0;
 	j = -1;
-	pointers = find_selected(list, argc, &total, &j);
+	pointers = find_selected(list, &total, &j);
 	if (total == 0)
 		return (NULL);
 	result = (char*)ft_xmalloc(total + 1 + (j - 1));
@@ -84,16 +76,16 @@ char			*generate_selected_line(t_args *list, int argc, char *result)
 ** @*j and @total - all because of the norm, I'm sorry for that
 */
 
-char			**find_selected(t_args *list, int argc, int *total, size_t *j)
+char			**find_selected(t_args *list, int *total, size_t *j)
 {
 	char		**pointers;
 	t_args		*run;
 	int			total_args_left;
 	size_t		i;
 
-	pointers = (char**)ft_xmalloc(sizeof(char*) * argc + 1);
-	pointers[argc] = 0;
 	total_args_left = args_total(list, list);
+	pointers = (char**)ft_xmalloc(sizeof(char*) * total_args_left + 1);
+	pointers[total_args_left] = 0;
 	run = list;
 	i = -1;
 	while (++i < total_args_left)

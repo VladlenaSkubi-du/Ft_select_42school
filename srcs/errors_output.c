@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/01 19:50:30 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/14 15:03:10 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/15 18:00:18 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int			terminal_errors(int flag)
 ** exit but waits for the necessary action.
 */
 
-void		message_resize(void)
+void			message_resize(void)
 {
-	ft_putendl_fd("Not enough space for the arguments output. ", 2);
+	ft_putendl_fd("Not enough space for output.", 2);
 	ft_putendl_fd("Please, resize the terminal window.", 2);
 }

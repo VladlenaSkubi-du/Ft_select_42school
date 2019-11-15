@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 12:24:09 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/14 15:19:30 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/15 18:07:39 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 // if (key == 26)
 // 	printf("key SIGTSTP\n");
 
-char			*read_commands(t_args **list, int argc)
+char			*read_commands(t_args **list, int *flag)
 {
 	int			key;
 	char		*result;
@@ -29,13 +29,18 @@ char			*read_commands(t_args **list, int argc)
 	result = NULL;
 	while (1)
 	{
+		if (*flag != 1)
+		{
+			bell_sound();
+			continue;
+		}
 		key = key_hook();
 		//ft_putnbr(key);
 		if (key == '\033')
 			return (NULL);
 		if (key == '\n')
 		{
-			result = generate_selected_line(*list, argc, result);
+			result = generate_selected_line(*list, result);
 			return (result);
 		}
 		if (key == 126)
@@ -47,12 +52,14 @@ char			*read_commands(t_args **list, int argc)
 				return (NULL);
 		}
 		else
-			read_commands_and_signals(*list, key);
+			read_commands_and_signals(*list, key, flag);
 	}
 }
 
-void			read_commands_and_signals(t_args *list, int key)
+void			read_commands_and_signals(t_args *list, int key, int *flag)
 {
+	if (*flag != 1)
+		return ;
 	if (key == 4283163 || key == 4348699 ||
 				key == 4414235 || key == 4479771)
 		make_movements(list, key);

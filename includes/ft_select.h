@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 14:42:08 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/14 15:25:34 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/15 18:37:05 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,8 @@ typedef struct		s_args
 */
 
 char				*main_start_selection(int argc, const char **argv);
-char				*generate_selected_line(t_args *list,
-						int argc, char *result);
-char				**find_selected(t_args *list, int argc,
-						int *total, size_t *j);
+char				*generate_selected_line(t_args *list, char *result);
+char				**find_selected(t_args *list, int *total, size_t *j);
 
 /*
 ** File terminal_changes.c
@@ -66,13 +64,15 @@ void				reset_terminal_mode(void);
 
 void				redirect_signals(void);
 void				signal_handler(int sig);
+void                resize_monitor(t_args *list, int argc,
+						size_t max_len, int *flag);
 
 /*
 ** File readline.c
 */
 
-char				*read_commands(t_args **list, int argc);
-void				read_commands_and_signals(t_args *list, int key);
+char				*read_commands(t_args **list, int *flag);
+void				read_commands_and_signals(t_args *list, int key, int *flag);
 int					key_hook(void);
 
 /*
@@ -130,6 +130,7 @@ t_args				*delete_element(t_args *list);
 void				output_element(char *element);
 void				position_cursor(int x, int y);
 void				position_and_clear_element(int x, int y, size_t len);
+void				clean_screen(void);
 
 /*
 ** File termcap_underline_inverse_video.c

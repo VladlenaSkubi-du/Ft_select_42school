@@ -6,23 +6,21 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 15:02:51 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/14 15:21:48 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/15 18:38:25 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-void			make_movements(t_args *list, int key)
+void				make_movements(t_args *list, int key)
 {
-	t_args		*underlined;
-	int			term_lines;
-	int			term_columns;
-	int			limit_left;
+	t_args			*underlined;
+	struct winsize	sz;
+	int				limit_left;
 
 	underlined = find_list(list, 'u');
-	term_lines = tgetnum("li");
-	term_columns = tgetnum("co");
-	limit_left = term_columns - underlined->len - 2;
+	ioctl(1, TIOCGWINSZ, &sz);
+	limit_left = sz.ws_col - underlined->len - 2;
 	if (key == 4283163)
 		underlined = move_up_a(underlined);
 	if (key == 4348699)
