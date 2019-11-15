@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 12:23:25 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/14 15:23:43 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/15 16:13:05 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,15 @@ char			**find_selected(t_args *list, int argc, int *total, size_t *j)
 {
 	char		**pointers;
 	t_args		*run;
+	int			total_args_left;
 	size_t		i;
 
 	pointers = (char**)ft_xmalloc(sizeof(char*) * argc + 1);
+	pointers[argc] = 0;
+	total_args_left = args_total(list, list);
 	run = list;
 	i = -1;
-	while (++i < argc)
+	while (++i < total_args_left)
 	{
 		if (run->selected == 1)
 		{
