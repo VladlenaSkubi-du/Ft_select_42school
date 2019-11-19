@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 14:42:08 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/15 18:37:05 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/19 15:14:32 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@
 # include "libft.h"
 # include "ft_printf.h"
 # include "get_next_line.h"
+
+struct termios		g_tty;
+struct termios		g_backup_tty;
 
 typedef struct		s_args
 {
@@ -54,9 +57,18 @@ char				**find_selected(t_args *list, int *total, size_t *j);
 */
 
 int					terminal_init_start(int argc, char **argv);
-void				reset_canonical_input(struct termios save_terminal_mode);
+void				reset_canonical_input(void);
+void				back_to_noncanonical_input(void);
 void				make_fullscreen(void);
 void				reset_terminal_mode(void);
+
+/*
+** File globals_forbidden.c
+*/
+
+void				save_for_exit(t_args *list, int flag);
+void                resize_monitor(t_args *list, int argc,
+						size_t max_len, int *flag);
 
 /*
 ** File signals_processing.c
@@ -64,15 +76,13 @@ void				reset_terminal_mode(void);
 
 void				redirect_signals(void);
 void				signal_handler(int sig);
-void                resize_monitor(t_args *list, int argc,
-						size_t max_len, int *flag);
 
 /*
 ** File readline.c
 */
 
 char				*read_commands(t_args **list, int *flag);
-void				read_commands_and_signals(t_args *list, int key, int *flag);
+char				*read_commands_and_signals(t_args **list, int key, int *flag);
 int					key_hook(void);
 
 /*

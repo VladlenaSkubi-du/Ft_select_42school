@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:51:01 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/15 18:39:59 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/19 16:34:46 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,39 +21,51 @@
 
 int				terminal_init_start(int argc, char **argv)
 {
-	struct termios	tty;
-	struct termios	save_terminal_mode;
 	char			*result;
 
-	if (tcgetattr(STDIN_FILENO, &tty) < 0)
+	if (tcgetattr(STDIN_FILENO, &g_tty) < 0)
 		return (-1);
-	save_terminal_mode = tty;
-	tty.c_lflag &= ~(ICANON | ECHO | ISIG);
-	tty.c_cc[VMIN] = 1;
-	tty.c_cc[VTIME] = 1;
-	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &tty) < 0)
+	g_backup_tty = g_tty;
+	g_tty.c_lflag &= ~(ICANON | ECHO);
+	g_tty.c_cc[VMIN] = 1;
+	g_tty.c_cc[VTIME] = 1;
+	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &g_tty) < 0)
 		exit(1);
-	if (tcgetattr(STDIN_FILENO, &tty) < 0 ||
-		((tty.c_lflag & (ICANON | ECHO | ISIG) || 
-		tty.c_cc[VMIN] != 1 || tty.c_cc[VTIME] != 1)))
+	if (tcgetattr(STDIN_FILENO, &g_tty) < 0 ||
+		((g_tty.c_lflag & (ICANON | ECHO) ||
+		g_tty.c_cc[VMIN] != 1 || g_tty.c_cc[VTIME] != 1)))
 	{
-		reset_canonical_input(save_terminal_mode);
+		reset_canonical_input();
 		return (-1);
 	}
-	//save_for_exit(NULL, save_terminal_mode);
+	redirect_signals();
 	result = main_start_selection(argc, (const char**)argv);
-	reset_canonical_input(save_terminal_mode);
-	ft_putendl_fd(result, 1);
+	//result = main_start_selection(argc, (const char**)argv, 0);
+	reset_canonical_input();
+	(result != NULL) ? ft_putendl_fd(result, 1) : ft_putchar_fd('\n', 1);
 	free(result);
 	return (0);
 }
 
-void			reset_canonical_input(struct termios save_terminal_mode)
+void			reset_canonical_input(void)
 {
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &save_terminal_mode) != 0)
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &g_backup_tty) != 0)
 	{
 		ft_putstr_fd("Can't change terminal back. ", 2);
 		ft_putendl_fd("You should reset the terminal", 2);
+		exit(1);
+	}
+}
+
+void			back_to_noncanonical_input(void)
+{
+	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &g_tty) < 0)
+		exit(1);
+	if (tcgetattr(STDIN_FILENO, &g_tty) < 0 ||
+		((g_tty.c_lflag & (ICANON | ECHO) ||
+		g_tty.c_cc[VMIN] != 1 || g_tty.c_cc[VTIME] != 1)))
+	{
+		reset_canonical_input();
 		exit(1);
 	}
 }

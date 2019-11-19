@@ -6,20 +6,11 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 12:24:09 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/15 18:07:39 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/19 16:38:32 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
-
-// if (key == 3)
-// 	printf("key SIGINT\n");
-// if (key == 4)
-// 	printf("key SIGTERM\n");
-// if (key == 28)
-// 	printf("key SIGQUIT\n");
-// if (key == 26)
-// 	printf("key SIGTSTP\n");
 
 char			*read_commands(t_args **list, int *flag)
 {
@@ -43,27 +34,33 @@ char			*read_commands(t_args **list, int *flag)
 			result = generate_selected_line(*list, result);
 			return (result);
 		}
-		if (key == 126)
-			if ((*list = delete_element(*list)) == NULL)
-				return (NULL);
-		if (key == 127)
+		else
 		{
-			if ((*list = backspace_element(*list)) == NULL)
+			if (read_commands_and_signals(list, key, flag) == NULL)
 				return (NULL);
 		}
-		else
-			read_commands_and_signals(*list, key, flag);
 	}
 }
 
-void			read_commands_and_signals(t_args *list, int key, int *flag)
+char			*read_commands_and_signals(t_args **list, int key, int *flag)
 {
 	if (*flag != 1)
-		return ;
+		return ("wait");
 	if (key == 4283163 || key == 4348699 ||
-				key == 4414235 || key == 4479771)
-		make_movements(list, key);
-	(key == 32) ? select_element(list) : 0;
+			key == 4414235 || key == 4479771)
+		make_movements(*list, key);
+	(key == 32) ? select_element(*list) : 0;
+	// if (key == 9)
+	//
+	if (key == 126)
+		if ((*list = delete_element(*list)) == NULL)
+			return (NULL);
+	if (key == 127)
+	{
+		if ((*list = backspace_element(*list)) == NULL)
+			return (NULL);
+	}
+	return ("ok");
 }
 
 int				key_hook(void)
@@ -72,6 +69,5 @@ int				key_hook(void)
 
 	ft_bzero(buffer, 4);
 	read(STDIN_FILENO, buffer, 3);
-	//write(STDOUT_FILENO, buffer, 3); //delete
 	return (*(unsigned int*)buffer);
 }

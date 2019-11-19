@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 12:23:25 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/15 18:35:55 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/19 17:56:29 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,29 @@ int				main(int argc, char **argv)
 	return (0);
 }
 
+//char			*main_start_selection(int argc, const char **argv, int level)
 char			*main_start_selection(int argc, const char **argv)
 {
+	// char		**dirs;
 	t_args		*list;
 	char		*result;
 	size_t		max_len;
 	int			flag;
 
 	flag = 0;
-	redirect_signals();
+
+	// dirs = (char**)ft_xmalloc(sizeof(t_args*) * argc + 1)
+	// dirs[argc] = 0;
+	
 	make_fullscreen();
 	list = save_arguments(&max_len, argc, argv);
+	save_for_exit(list, 1);
 	resize_monitor(list, argc, max_len, &flag);
 	result = read_commands(&list, &flag);
 	reset_terminal_mode();
 	if (list != NULL)
 		free_arguments(list);
+	//освободить dirs
 	return (result);
 }
 
@@ -59,8 +66,11 @@ char			*generate_selected_line(t_args *list, char *result)
 	j = -1;
 	pointers = find_selected(list, &total, &j);
 	if (total == 0)
+	{
+		free(pointers);
 		return (NULL);
-	result = (char*)ft_xmalloc(total + 1 + (j - 1));
+	}
+	result = (char*)ft_xmalloc(total + 2 + (j - 1));
 	i = -1;
 	while (++i < j)
 	{

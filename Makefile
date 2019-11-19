@@ -5,6 +5,7 @@ FLAGS += -g
 
 SOURCES =	main.c \
 			terminal_changes.c \
+			globals_forbidden.c \
 			signals_processing.c \
 			readline.c \
 			args_initiation.c \

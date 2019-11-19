@@ -6,17 +6,17 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 14:33:08 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/15 16:55:39 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/19 16:46:57 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-void			fill_in_position(t_args *list, int term_lines, int max_len)
+void				fill_in_position(t_args *list, int term_lines, int max_len)
 {
-	t_args		*run;
-	size_t		i;
-	size_t		j;
+	t_args			*run;
+	size_t			i;
+	size_t			j;
 
 	run = list;
 	i = 0;
@@ -24,15 +24,10 @@ void			fill_in_position(t_args *list, int term_lines, int max_len)
 	while (run->next != list)
 	{
 		run = run->next;
-		if (max_len == 0)
+		run->x = i;
+		run->y = ++j;
+		if (max_len != 0)
 		{
-			run->x = i;
-			run->y = ++j;
-		}
-		else
-		{
-			run->x = i;
-			run->y = ++j;
 			if (j == term_lines - 1)
 			{
 				i += max_len;
@@ -47,7 +42,6 @@ int					calculate_position(t_args *list, int total, size_t max_len)
 	struct winsize	sz;
 	int				max_columns;
 	int				max_capability;
-
 
 	ioctl(1, TIOCGWINSZ, &sz);
 	max_columns = sz.ws_col / max_len;
@@ -67,11 +61,11 @@ int					calculate_position(t_args *list, int total, size_t max_len)
 ** the cycled structure) and we do not need to make reposition
 */
 
-t_args			*reposition_till_the_end(t_args *list, t_args *first_after)
+t_args				*reposition_till_the_end(t_args *list, t_args *first_after)
 {
-	int			total;
-	size_t		i;
-	t_args		*run;
+	int				total;
+	size_t			i;
+	t_args			*run;
 
 	total = args_total(list, first_after);
 	if (total == 1 && list == first_after)

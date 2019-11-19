@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 14:58:09 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/15 17:54:42 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/19 16:36:54 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ void			position_and_clear_element(int x, int y, size_t len)
 void			clean_screen(void)
 {
 	char		buf[10];
-    char		*buffer;
+	char		*buffer;
 
 	buffer = buf;
-	tputs(tgetstr("cl", &buffer), 1, ft_putint);;
+	tputs(tgetstr("cl", &buffer), 1, ft_putint);
 	buffer = buf;
 }

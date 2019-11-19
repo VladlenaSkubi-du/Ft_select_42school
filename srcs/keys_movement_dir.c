@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 15:02:51 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/15 18:38:25 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/19 16:35:11 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void				make_movements(t_args *list, int key)
 		bell_sound(underlined);
 }
 
-t_args			*move_down_b(t_args *under)
+t_args				*move_down_b(t_args *under)
 {
 	under->underline = 0;
 	underline_off();
@@ -51,7 +51,7 @@ t_args			*move_down_b(t_args *under)
 	return (under);
 }
 
-t_args			*move_up_a(t_args *under)
+t_args				*move_up_a(t_args *under)
 {
 	under->underline = 0;
 	underline_off();
@@ -67,7 +67,7 @@ t_args			*move_up_a(t_args *under)
 	return (under);
 }
 
-t_args			*move_right_c(t_args *under)
+t_args				*move_right_c(t_args *under)
 {
 	t_args		*run;
 
@@ -92,9 +92,9 @@ t_args			*move_right_c(t_args *under)
 	return (run);
 }
 
-t_args			*move_left_d(t_args *under)
+t_args				*move_left_d(t_args *under)
 {
-	t_args		*run;
+	t_args			*run;
 
 	run = under->prev;
 	while (run->y != under->y)

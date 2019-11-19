@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 17:31:44 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/15 17:15:11 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/19 13:01:17 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_args			*save_arguments(size_t *max_len, int argc, const char **argv)
 	i = 0;
 	while (++i < argc)
 	{
-		if (ft_strtrim(argv[i]) == NULL)
+		if ((argv[i] = ft_strtrim(argv[i])) == NULL)
 			continue ;
 		init_next_argument(run, argv[i], i);
 		if (run->len > *max_len)
