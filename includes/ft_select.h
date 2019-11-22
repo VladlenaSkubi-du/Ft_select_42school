@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 14:42:08 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/19 15:14:32 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/20 15:04:12 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,12 @@
 # include <signal.h>
 
 # include <stdio.h>      //DELETE
+# include <errno.h>
 
 # include <string.h>
+# include <sys/types.h>
+# include <dirent.h>
+# include <sys/stat.h>
 
 # include "libft.h"
 # include "ft_printf.h"
@@ -40,6 +44,9 @@ typedef struct		s_args
 	unsigned int	x;
 	unsigned int	y;
 	size_t			len;
+	char			type;
+	size_t			max_len_head;
+	char			*path_head;
 	struct s_args	*next;
 	struct s_args	*prev;
 }					t_args;
@@ -67,8 +74,7 @@ void				reset_terminal_mode(void);
 */
 
 void				save_for_exit(t_args *list, int flag);
-void                resize_monitor(t_args *list, int argc,
-						size_t max_len, int *flag);
+void				resize_monitor(t_args *list, int *flag);
 
 /*
 ** File signals_processing.c
@@ -81,28 +87,29 @@ void				signal_handler(int sig);
 ** File readline.c
 */
 
-char				*read_commands(t_args **list, int *flag);
-char				*read_commands_and_signals(t_args **list, int key, int *flag);
+char			*read_commands(t_args **dirs, int *level, int *flag);
+char			*read_commands_and_signals(t_args **dirs, int *level, int key, int *flag);
 int					key_hook(void);
 
 /*
 ** File args_initiation.c
 */
 
-t_args				*save_arguments(size_t *max_len, int argc,
-						const char **argv);
-t_args				*init_first_argument(const char *argument);
+t_args				*save_arguments(int argc, const char **argv);
+t_args			*init_first_argument(const char *argument, char *path);
 void				init_next_argument(t_args *current,
 						const char *argument, short flag);
-void				sort_arguments(t_args *list, int total); //make sorting
+t_args			*save_files(char *path);
+char				find_type(char *path, char *argument);
 
 /*
 ** File args_position_calculation.c
 */
 
-int					calculate_position(t_args *list, int total, size_t max_len);
-void				fill_in_position(t_args *list, int term_lines, int max_len);
+int					calculate_position(t_args *list);
+void				fill_in_position(t_args *list, int term_lines);
 t_args				*reposition_till_the_end(t_args *list, t_args *first_after);
+//size_t				find_max_len(t_args *list);
 
 /*
 ** File args_processing.c
@@ -137,7 +144,7 @@ t_args				*delete_element(t_args *list);
 ** File termcap_position.c
 */
 
-void				output_element(char *element);
+void				output_element(char type, char *element);
 void				position_cursor(int x, int y);
 void				position_and_clear_element(int x, int y, size_t len);
 void				clean_screen(void);
@@ -156,6 +163,9 @@ void				inverse_video_off(void);
 */
 
 void				bell_sound();
+void				print_type_dir(char type, char *arg);
+void			make_tab_new_directory(t_args **dirs, int *level, int *flag);
+void			make_back_parent_directory(t_args **dirs, int *level, int *flag);
 
 /*
 ** File errors_output.c

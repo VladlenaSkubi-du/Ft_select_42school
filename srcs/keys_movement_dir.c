@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 15:02:51 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/19 16:35:11 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/20 12:39:00 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ t_args				*move_down_b(t_args *under)
 	underline_off();
 	check_selected(under->selected);
 	position_and_clear_element(under->x, under->y, under->len);
-	output_element(under->arg);
+	output_element(under->type, under->arg);
 	under = under->next;
 	under->underline = 1;
 	position_and_clear_element(under->x, under->y, under->len);
 	check_selected(under->selected);
 	underline_on();
-	output_element(under->arg);
+	output_element(under->type, under->arg);
 	return (under);
 }
 
@@ -57,13 +57,13 @@ t_args				*move_up_a(t_args *under)
 	underline_off();
 	check_selected(under->selected);
 	position_and_clear_element(under->x, under->y, under->len);
-	output_element(under->arg);
+	output_element(under->type, under->arg);
 	under = under->prev;
 	under->underline = 1;
 	position_and_clear_element(under->x, under->y, under->len);
 	check_selected(under->selected);
 	underline_on();
-	output_element(under->arg);
+	output_element(under->type, under->arg);
 	return (under);
 }
 
@@ -83,12 +83,12 @@ t_args				*move_right_c(t_args *under)
 	underline_off();
 	check_selected(under->selected);
 	position_and_clear_element(under->x, under->y, under->len);
-	output_element(under->arg);
+	output_element(under->type, under->arg);
 	run->underline = 1;
 	position_and_clear_element(run->x, run->y, run->len);
 	check_selected(run->selected);
 	underline_on();
-	output_element(run->arg);
+	output_element(under->type, run->arg);
 	return (run);
 }
 
@@ -108,11 +108,11 @@ t_args				*move_left_d(t_args *under)
 	underline_off();
 	check_selected(under->selected);
 	position_and_clear_element(under->x, under->y, under->len);
-	output_element(under->arg);
+	output_element(under->type, under->arg);
 	run->underline = 1;
 	position_and_clear_element(run->x, run->y, run->len);
 	check_selected(run->selected);
 	underline_on();
-	output_element(run->arg);
+	output_element(under->type, run->arg);
 	return (run);
 }

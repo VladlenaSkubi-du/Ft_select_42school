@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 13:29:48 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/19 16:39:24 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/20 13:34:47 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void				signal_handler(int sig)
 	if (sig == SIGTSTP)
 		save_for_exit(NULL, 2);
 	if (sig == SIGWINCH)
-		resize_monitor(NULL, 0, 0, 0);
+		resize_monitor(NULL, 0);
 	if (sig == SIGCONT)
 		save_for_exit(NULL, 3);
 	if (sig == SIGQUIT)

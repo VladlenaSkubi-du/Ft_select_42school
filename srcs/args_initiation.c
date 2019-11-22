@@ -6,20 +6,20 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 17:31:44 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/19 13:01:17 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/20 14:01:41 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-t_args			*save_arguments(size_t *max_len, int argc, const char **argv)
+t_args			*save_arguments(int argc, const char **argv)
 {
 	t_args		*list;
 	t_args		*run;
 	size_t		i;
-
-	list = init_first_argument(argv[0]);
-	*max_len = list->len;
+	
+	list = init_first_argument(argv[0], NULL);
+	list->type = find_type(list->path_head, list->arg);
 	run = list;
 	i = 0;
 	while (++i < argc)
@@ -27,18 +27,19 @@ t_args			*save_arguments(size_t *max_len, int argc, const char **argv)
 		if ((argv[i] = ft_strtrim(argv[i])) == NULL)
 			continue ;
 		init_next_argument(run, argv[i], i);
-		if (run->len > *max_len)
-			*max_len = run->len;
+		run->next->type = find_type(list->path_head, run->next->arg);
+		if (run->len > list->max_len_head)
+			list->max_len_head = run->len;
 		run = run->next;
 	}
-	sort_arguments(list, argc);
-	*max_len = (*max_len == 8) ? (*max_len)++ : *max_len;
-	while (*max_len % 8 != 0)
-		(*max_len)++;
+	list->max_len_head = (list->max_len_head == 8) ?
+		(list->max_len_head)++ : list->max_len_head;
+	while (list->max_len_head % 8 != 0)
+		(list->max_len_head)++;
 	return (list);
 }
 
-t_args			*init_first_argument(const char *argument)
+t_args			*init_first_argument(const char *argument, char *path)
 {
 	t_args		*list;
 
@@ -51,6 +52,11 @@ t_args			*init_first_argument(const char *argument)
 	list->underline = 1;
 	list->x = 0;
 	list->y = 0;
+	list->max_len_head = list->len;
+	if (path == NULL)
+		list->path_head = ft_strdup("./");
+	else
+		list->path_head = ft_strdup(path);
 	return (list);
 }
 
@@ -84,7 +90,54 @@ void			init_next_argument(t_args *current,
 	}
 }
 
-void			sort_arguments(t_args *list, int total) //make sorting from ls
+t_args			*save_files(char *path)
 {
-	return ;
+	t_args		*list;
+	t_args		*run;
+	size_t		i;
+	DIR			*directory;
+	struct dirent		*entry;
+
+	
+	if (!(directory = opendir(path)))
+		return (NULL);
+	i = 0;
+	while ((entry = readdir(directory)))
+	{
+		if (*entry->d_name == '.')
+			continue;
+		if (i == 0)
+			list = init_first_argument(entry->d_name, path);
+		else if (i > 0)
+		{
+			run = list;
+			init_next_argument(run, entry->d_name, i);
+			run->next->type = find_type(list->path_head, run->next->arg);
+			if (run->len > list->max_len_head)
+				list->max_len_head = run->len;
+			run = run->next;
+		}
+		i++;
+	}
+	if (i == 0)
+		return (NULL);
+	list->max_len_head = (list->max_len_head == 8) ?
+		(list->max_len_head)++ : list->max_len_head;
+	while (list->max_len_head % 8 != 0)
+		(list->max_len_head)++;
+	closedir(directory);
+	return (list);
+}
+
+char			find_type(char *path, char *argument)
+{
+	DIR			*dirname;
+	char		*dir_name;
+
+	dir_name = ft_strjoin(path, argument);
+	if (!(dirname = opendir(dir_name)))
+		return ('r');
+	closedir(dirname);
+	free(dir_name);
+	return('d');
 }

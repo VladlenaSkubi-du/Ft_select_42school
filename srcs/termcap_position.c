@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 14:58:09 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/19 16:36:54 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/20 13:20:18 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 ** `rc' stays for restor_cursor_position
 */
 
-void			output_element(char *element)
+void			output_element(char type, char *element)
 {
 	char		buf[30];
 	char		*buffer;
 
 	buffer = buf;
 	tputs(tgetstr("sc", &buffer), 1, ft_putint);
-	ft_putstr_fd(element, 2);
+	print_type_dir(type, element);
 	tputs(tgetstr("rc", &buffer), 1, ft_putint);
 	buffer = buf;
 }

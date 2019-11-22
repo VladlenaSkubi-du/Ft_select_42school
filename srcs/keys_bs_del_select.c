@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 17:04:30 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/14 15:08:09 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/20 12:37:42 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void			select_element(t_args *list)
 	}
 	position_and_clear_element(underlined->x,
 		underlined->y, underlined->len);
-	output_element(underlined->arg);
+	output_element(underlined->type, underlined->arg);
 	underlined = move_down_b(underlined);
 }
 

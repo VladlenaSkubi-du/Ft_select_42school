@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 12:23:25 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/19 17:56:29 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/20 13:54:26 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,28 +29,25 @@ int				main(int argc, char **argv)
 	return (0);
 }
 
-//char			*main_start_selection(int argc, const char **argv, int level)
 char			*main_start_selection(int argc, const char **argv)
 {
-	// char		**dirs;
-	t_args		*list;
+	t_args		**dirs;
 	char		*result;
-	size_t		max_len;
 	int			flag;
+	int			level;
 
 	flag = 0;
-
-	// dirs = (char**)ft_xmalloc(sizeof(t_args*) * argc + 1)
-	// dirs[argc] = 0;
-	
+	level = 0;
+	dirs = (t_args**)ft_xmalloc(sizeof(t_args*) * argc + 1);
+	dirs[argc] = 0;
 	make_fullscreen();
-	list = save_arguments(&max_len, argc, argv);
-	save_for_exit(list, 1);
-	resize_monitor(list, argc, max_len, &flag);
-	result = read_commands(&list, &flag);
+	dirs[0] = save_arguments(argc, argv);
+	save_for_exit(dirs[0], 1);
+	resize_monitor(dirs[0], &flag);
+	result = read_commands(dirs, &level, &flag);
 	reset_terminal_mode();
-	if (list != NULL)
-		free_arguments(list);
+	// if (list != NULL)
+	// 	free_arguments(list);
 	//освободить dirs
 	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 12:12:03 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/19 16:33:32 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/20 13:34:30 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void						save_for_exit(t_args *list, int flag)
 		redirect_signals();
 		signal(SIGCONT, SIG_DFL);
 		make_fullscreen();
-		resize_monitor(NULL, 0, 0, 0);
+		resize_monitor(NULL, 0);
 	}
 	else
 	{
@@ -49,23 +49,18 @@ void						save_for_exit(t_args *list, int flag)
 	}
 }
 
-void						resize_monitor(t_args *list, int argc,
-								size_t max_len, int *flag)
+void						resize_monitor(t_args *list, int *flag)
 {
 	static t_args			*list_saved;
-	static int				argc_saved;
-	static size_t			max_len_saved;
 	static int				*flag_save;
 
 	clean_screen();
-	if (list != NULL && argc != 0 && max_len != 0)
+	if (list != NULL)
 	{
 		list_saved = list;
-		argc_saved = argc;
-		max_len_saved = max_len;
 		flag_save = flag;
 	}
-	if (calculate_position(list_saved, argc_saved, max_len_saved) == 1)
+	if (calculate_position(list_saved) == 1)
 	{
 		output_arguments((const t_args*)list_saved, (const t_args*)list_saved);
 		*flag_save = 1;
@@ -76,3 +71,24 @@ void						resize_monitor(t_args *list, int argc,
 		*flag_save = -1;
 	}
 }
+
+/*
+position_cursor(0, 0);
+	ft_putstr_fd(argument, 2);
+	if (!(directory = opendir(argument)))
+	{
+		if (errno == ENOTDIR)
+			ft_putstr_fd("HERE13", 2);
+		if (errno == ENOENT)
+			ft_putstr_fd("HERE14", 2);
+		position_cursor(50, 5);
+		ft_putstr_fd("HERE1", 2);
+		list->type = 'r';
+	}
+	else
+	{
+		position_cursor(50, 6);
+		ft_putstr_fd("HERE", 2);
+		list->type = 'd';
+	}
+	*/

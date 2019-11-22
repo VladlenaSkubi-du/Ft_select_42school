@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 18:25:47 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/14 15:07:17 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/11/20 13:38:49 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,13 @@ void			output_arguments(const t_args *list, const t_args *under)
 	i = 0;
 	while (i < total)
 	{
-		if (run->selected == 1)
-			inverse_video_on();
-		else
-			inverse_video_off();
+		check_selected(run->selected);
 		if (run->underline == 1)
 			underline_on();
 		else
 			underline_off();
 		position_cursor(run->x, run->y);
-		ft_putstr_fd(run->arg, 2);
+		print_type_dir(run->type, run->arg);
 		i++;
 		run = run->next;
 	}
@@ -78,6 +75,7 @@ t_args			*delete_argument(t_args *list, t_args *selected)
 	if (list == selected && total == 1)
 	{
 		free(selected->arg);
+		free(selected->path_head);
 		free(selected);
 		return (NULL);
 	}
