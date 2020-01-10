@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 13:29:48 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/19 16:39:24 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/12/20 12:58:31 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 ** key == 3 - SIGINT
 ** key == 4 - SIGTERM
-** key == 28 - SIGQUIT(Ctrl-\) 
+** key == 28 - SIGQUIT(Ctrl-\)
 ** key == 26 - SIGTSTP (ctrl-Z)
 ** resize - SIGWINCH
 */

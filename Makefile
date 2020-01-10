@@ -1,7 +1,7 @@
 NAME = ft_select
 
-FLAGS = -Wall #-Werror -Wextra
-FLAGS += -g
+FLAGS = -Wall -Werror -Wextra
+# FLAGS += -g
 
 SOURCES =	main.c \
 			terminal_changes.c \

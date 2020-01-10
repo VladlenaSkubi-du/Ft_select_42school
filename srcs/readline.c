@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 12:24:09 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/19 16:38:32 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/12/20 12:58:06 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ char			*read_commands(t_args **list, int *flag)
 			continue;
 		}
 		key = key_hook();
-		//ft_putnbr(key);
 		if (key == '\033')
 			return (NULL);
 		if (key == '\n')
@@ -50,8 +49,6 @@ char			*read_commands_and_signals(t_args **list, int key, int *flag)
 			key == 4414235 || key == 4479771)
 		make_movements(*list, key);
 	(key == 32) ? select_element(*list) : 0;
-	// if (key == 9)
-	//
 	if (key == 126)
 		if ((*list = delete_element(*list)) == NULL)
 			return (NULL);

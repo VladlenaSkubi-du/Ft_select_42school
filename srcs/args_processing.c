@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 18:25:47 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/14 15:07:17 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/12/20 13:05:06 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void			output_arguments(const t_args *list, const t_args *under)
 	run = (t_args*)under;
 	total = args_total((const t_args*)list, under);
 	i = 0;
-	while (i < total)
+	while (i < (size_t)total)
 	{
 		if (run->selected == 1)
 			inverse_video_on();

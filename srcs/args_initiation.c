@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 17:31:44 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/19 13:01:17 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/12/20 13:03:38 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_args			*save_arguments(size_t *max_len, int argc, const char **argv)
 	*max_len = list->len;
 	run = list;
 	i = 0;
-	while (++i < argc)
+	while (++i < (size_t)argc)
 	{
 		if ((argv[i] = ft_strtrim(argv[i])) == NULL)
 			continue ;
@@ -31,7 +31,6 @@ t_args			*save_arguments(size_t *max_len, int argc, const char **argv)
 			*max_len = run->len;
 		run = run->next;
 	}
-	sort_arguments(list, argc);
 	*max_len = (*max_len == 8) ? (*max_len)++ : *max_len;
 	while (*max_len % 8 != 0)
 		(*max_len)++;
@@ -82,9 +81,4 @@ void			init_next_argument(t_args *current,
 		tmp->prev = current;
 		save->prev = tmp;
 	}
-}
-
-void			sort_arguments(t_args *list, int total) //make sorting from ls
-{
-	return ;
 }

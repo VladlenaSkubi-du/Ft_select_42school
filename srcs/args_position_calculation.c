@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 14:33:08 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/19 16:46:57 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/12/20 13:04:39 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void				fill_in_position(t_args *list, int term_lines, int max_len)
 		run->y = ++j;
 		if (max_len != 0)
 		{
-			if (j == term_lines - 1)
+			if (j == (size_t)term_lines - 1)
 			{
 				i += max_len;
 				j = -1;
@@ -72,7 +72,7 @@ t_args				*reposition_till_the_end(t_args *list, t_args *first_after)
 		return (first_after);
 	i = 0;
 	run = list->prev;
-	while (i <= total)
+	while (i <= (size_t)total)
 	{
 		position_and_clear_element(run->x, run->y, run->len);
 		run->x = run->prev->x;

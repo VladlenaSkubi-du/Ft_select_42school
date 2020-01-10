@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 14:42:08 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/19 15:14:32 by sschmele         ###   ########.fr       */
+/*   Updated: 2020/01/10 12:08:28 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,6 @@
 # include <termios.h>
 # include <stdlib.h>
 # include <signal.h>
-
-# include <stdio.h>      //DELETE
-
-# include <string.h>
-
 # include "libft.h"
 # include "ft_printf.h"
 # include "get_next_line.h"
@@ -67,7 +62,7 @@ void				reset_terminal_mode(void);
 */
 
 void				save_for_exit(t_args *list, int flag);
-void                resize_monitor(t_args *list, int argc,
+void				resize_monitor(t_args *list, int argc,
 						size_t max_len, int *flag);
 
 /*
@@ -82,7 +77,8 @@ void				signal_handler(int sig);
 */
 
 char				*read_commands(t_args **list, int *flag);
-char				*read_commands_and_signals(t_args **list, int key, int *flag);
+char				*read_commands_and_signals(t_args **list,
+						int key, int *flag);
 int					key_hook(void);
 
 /*
@@ -94,7 +90,6 @@ t_args				*save_arguments(size_t *max_len, int argc,
 t_args				*init_first_argument(const char *argument);
 void				init_next_argument(t_args *current,
 						const char *argument, short flag);
-void				sort_arguments(t_args *list, int total); //make sorting
 
 /*
 ** File args_position_calculation.c

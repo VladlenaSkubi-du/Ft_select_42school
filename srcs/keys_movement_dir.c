@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 15:02:51 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/19 16:35:11 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/12/20 13:05:59 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void				make_movements(t_args *list, int key)
 {
 	t_args			*underlined;
 	struct winsize	sz;
-	int				limit_left;
+	unsigned int	limit_left;
 
 	underlined = find_list(list, 'u');
 	ioctl(1, TIOCGWINSZ, &sz);

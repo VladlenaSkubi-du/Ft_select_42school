@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 12:23:25 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/19 17:56:29 by sschmele         ###   ########.fr       */
+/*   Updated: 2020/01/10 12:17:39 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,14 @@ int				main(int argc, char **argv)
 	return (0);
 }
 
-//char			*main_start_selection(int argc, const char **argv, int level)
 char			*main_start_selection(int argc, const char **argv)
 {
-	// char		**dirs;
 	t_args		*list;
 	char		*result;
 	size_t		max_len;
 	int			flag;
 
 	flag = 0;
-
-	// dirs = (char**)ft_xmalloc(sizeof(t_args*) * argc + 1)
-	// dirs[argc] = 0;
-	
 	make_fullscreen();
 	list = save_arguments(&max_len, argc, argv);
 	save_for_exit(list, 1);
@@ -51,7 +45,6 @@ char			*main_start_selection(int argc, const char **argv)
 	reset_terminal_mode();
 	if (list != NULL)
 		free_arguments(list);
-	//освободить dirs
 	return (result);
 }
 
@@ -94,11 +87,11 @@ char			**find_selected(t_args *list, int *total, size_t *j)
 	size_t		i;
 
 	total_args_left = args_total(list, list);
-	pointers = (char**)ft_xmalloc(sizeof(char*) * total_args_left + 1);
+	pointers = (char**)ft_xmalloc(sizeof(char*) * (total_args_left + 1));
 	pointers[total_args_left] = 0;
 	run = list;
 	i = -1;
-	while (++i < total_args_left)
+	while (++i < (size_t)total_args_left)
 	{
 		if (run->selected == 1)
 		{

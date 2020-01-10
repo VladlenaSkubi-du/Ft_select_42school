@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:51:01 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/19 16:34:46 by sschmele         ###   ########.fr       */
+/*   Updated: 2019/12/20 12:59:00 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int				terminal_init_start(int argc, char **argv)
 	}
 	redirect_signals();
 	result = main_start_selection(argc, (const char**)argv);
-	//result = main_start_selection(argc, (const char**)argv, 0);
 	reset_canonical_input();
 	(result != NULL) ? ft_putendl_fd(result, 1) : ft_putchar_fd('\n', 1);
 	free(result);
