@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:51:01 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/19 16:34:46 by sschmele         ###   ########.fr       */
+/*   Updated: 2021/06/20 15:07:40 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@
 ** were launched.
 */
 
-int				terminal_init_start(int argc, char **argv)
+int				set_noncanonical_input(void)
 {
-	char			*result;
-
 	if (tcgetattr(STDIN_FILENO, &g_tty) < 0)
 		return (-1);
 	g_backup_tty = g_tty;
@@ -30,7 +28,7 @@ int				terminal_init_start(int argc, char **argv)
 	g_tty.c_cc[VMIN] = 1;
 	g_tty.c_cc[VTIME] = 1;
 	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &g_tty) < 0)
-		exit(1);
+		return (-1);
 	if (tcgetattr(STDIN_FILENO, &g_tty) < 0 ||
 		((g_tty.c_lflag & (ICANON | ECHO) ||
 		g_tty.c_cc[VMIN] != 1 || g_tty.c_cc[VTIME] != 1)))
@@ -38,12 +36,6 @@ int				terminal_init_start(int argc, char **argv)
 		reset_canonical_input();
 		return (-1);
 	}
-	redirect_signals();
-	result = main_start_selection(argc, (const char**)argv);
-	//result = main_start_selection(argc, (const char**)argv, 0);
-	reset_canonical_input();
-	(result != NULL) ? ft_putendl_fd(result, 1) : ft_putchar_fd('\n', 1);
-	free(result);
 	return (0);
 }
 

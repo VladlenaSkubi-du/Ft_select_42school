@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 14:33:08 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/19 16:46:57 by sschmele         ###   ########.fr       */
+/*   Updated: 2021/06/21 21:31:55 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int					calculate_position(t_args *list, int total, size_t max_len)
 	ioctl(1, TIOCGWINSZ, &sz);
 	max_columns = sz.ws_col / max_len;
 	max_capability = max_columns * sz.ws_row;
-	if (total > max_capability)
+	if (total > max_capability && total > 0 && max_capability > 0)
 		return (-1);
 	if (total <= sz.ws_row)
 		fill_in_position(list, 0, 0);

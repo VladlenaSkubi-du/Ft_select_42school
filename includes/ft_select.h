@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 14:42:08 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/19 15:14:32 by sschmele         ###   ########.fr       */
+/*   Updated: 2021/06/21 21:22:00 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@
 # include <string.h>
 
 # include "libft.h"
-# include "ft_printf.h"
-# include "get_next_line.h"
 
 struct termios		g_tty;
 struct termios		g_backup_tty;
@@ -42,12 +40,15 @@ typedef struct		s_args
 	size_t			len;
 	struct s_args	*next;
 	struct s_args	*prev;
+	struct s_args	*down;
+	struct s_args	*up;
 }					t_args;
 
 /*
 ** File main.c
 */
 
+char				**prepare_arguments(int *argc, char **argv);
 char				*main_start_selection(int argc, const char **argv);
 char				*generate_selected_line(t_args *list, char *result);
 char				**find_selected(t_args *list, int *total, size_t *j);
@@ -56,7 +57,7 @@ char				**find_selected(t_args *list, int *total, size_t *j);
 ** File terminal_changes.c
 */
 
-int					terminal_init_start(int argc, char **argv);
+int					set_noncanonical_input(void);
 void				reset_canonical_input(void);
 void				back_to_noncanonical_input(void);
 void				make_fullscreen(void);
@@ -94,7 +95,6 @@ t_args				*save_arguments(size_t *max_len, int argc,
 t_args				*init_first_argument(const char *argument);
 void				init_next_argument(t_args *current,
 						const char *argument, short flag);
-void				sort_arguments(t_args *list, int total); //make sorting
 
 /*
 ** File args_position_calculation.c

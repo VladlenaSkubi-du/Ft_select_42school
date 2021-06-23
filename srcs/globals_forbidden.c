@@ -6,7 +6,7 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 12:12:03 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/19 16:33:32 by sschmele         ###   ########.fr       */
+/*   Updated: 2021/06/21 21:27:38 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 ** = 1 - we need to save t_args *list;
 ** = 2 - we have SIGTSTP signal by ctrl-Z and need to reset terminal;
 ** = 3 - we have SIGCONT signal by fg and need to reset program settings
+** ioctl(2, TIOCSTI, "\032"); - by this we recover the program after
+** ctrl-Z
 */
 
 void						save_for_exit(t_args *list, int flag)

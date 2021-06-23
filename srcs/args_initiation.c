@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_initiation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vladlenaskubis <vladlenaskubis@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 17:31:44 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/19 13:01:17 by sschmele         ###   ########.fr       */
+/*   Updated: 2020/01/05 16:06:18 by vladlenasku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ t_args			*save_arguments(size_t *max_len, int argc, const char **argv)
 			*max_len = run->len;
 		run = run->next;
 	}
-	sort_arguments(list, argc);
 	*max_len = (*max_len == 8) ? (*max_len)++ : *max_len;
 	while (*max_len % 8 != 0)
 		(*max_len)++;
@@ -47,6 +46,7 @@ t_args			*init_first_argument(const char *argument)
 	list->len = ft_strlen(argument);
 	list->next = list;
 	list->prev = list;
+	list->down = list;
 	list->selected = 0;
 	list->underline = 1;
 	list->x = 0;
@@ -70,7 +70,6 @@ void			init_next_argument(t_args *current,
 	if (flag == 1)
 	{
 		tmp->next = current;
-		current->next = tmp;
 		tmp->prev = current;
 		current->prev = tmp;
 	}
@@ -78,13 +77,9 @@ void			init_next_argument(t_args *current,
 	{
 		save = current->next;
 		tmp->next = save;
-		current->next = tmp;
 		tmp->prev = current;
 		save->prev = tmp;
 	}
-}
-
-void			sort_arguments(t_args *list, int total) //make sorting from ls
-{
-	return ;
+	current->next = tmp;
+	tmp->down = tmp;
 }

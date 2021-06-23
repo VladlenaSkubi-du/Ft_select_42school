@@ -6,52 +6,107 @@
 /*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 12:23:25 by sschmele          #+#    #+#             */
-/*   Updated: 2019/11/19 17:56:29 by sschmele         ###   ########.fr       */
+/*   Updated: 2021/06/21 21:38:13 by sschmele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
+/*
+** Here we check if the terminal exists, environment is ready,
+** arguments are given
+** and start a "new" terminal
+** Tests:
+** to check if terminal exists, delete TERM from the environment
+** % unset TERM
+** closing the STDIN_FILENO
+** % ./ft_select `ls` 0<&- (the same with 1<&- and 2<&-)
+** 
+*/
+
 int				main(int argc, char **argv)
 {
 	char			*termtype;
 	char			room_termtype[1024];
+	char			**arguments;
+	char			*result;
 
-	if (!isatty(STDIN_FILENO))
-		return (1);
-	if (argc < 2 || (argv[1] = ft_strtrim(argv[1])) == NULL)
-		return (usage());
+	if (!isatty(STDIN_FILENO) || !isatty(STDERR_FILENO))
+		return (terminal_errors(2));
 	termtype = getenv("TERM");
 	if (termtype == NULL || tgetent(room_termtype, termtype) != 1)
 		return (terminal_errors(0));
-	if (terminal_init_start(argc - 1, &argv[1]) < 0)
+	if (set_noncanonical_input() < 0)
 		return (terminal_errors(1));
+	if ((arguments = prepare_arguments(&argc, argv)) == NULL)
+		return (usage());
+	redirect_signals();
+	make_fullscreen();
+	result = main_start_selection(argc, (const char**)arguments);
+	reset_terminal_mode();
+	reset_canonical_input();
+	(result != NULL) ? ft_putendl_fd(result, STDOUT_FILENO) :
+		ft_putchar_fd('\n', STDOUT_FILENO);
+	free(result);
+	ft_arrdel(arguments);
 	return (0);
 }
 
-//char			*main_start_selection(int argc, const char **argv, int level)
+char			**prepare_arguments(int *argc, char **argv)
+{
+	char		**arguments;
+	char		*tmp_arg;
+	int			i_old;
+	int			j_new;
+	
+	if (*argc < 2)
+		return (NULL);
+	arguments = (char**)ft_xmalloc(sizeof(char*) * (*argc - 1));
+	i_old = -1;
+	j_new = 0;
+	while (++i_old < (*argc - 1))
+	{
+		tmp_arg = ft_strtrim(argv[i_old + 1]);
+		if (ft_strlen(tmp_arg) != 0)
+			arguments[j_new++] = tmp_arg;
+		else
+		{
+			free(tmp_arg);
+			tmp_arg == NULL;
+		}
+	}
+	free(tmp_arg);
+	if (j_new == 0)
+	{
+		free(arguments);
+		return (NULL);
+	}
+	*argc = j_new;
+	return (arguments);
+}
+
+/*
+** Here we save all the arguments to the structure that is
+** a tree and save the pointer to the structure in static variables
+** for the times user uses some signals
+** Plus we locate the arguments according to the terminal size
+*/
+
 char			*main_start_selection(int argc, const char **argv)
 {
-	// char		**dirs;
 	t_args		*list;
 	char		*result;
 	size_t		max_len;
 	int			flag;
 
 	flag = 0;
-
-	// dirs = (char**)ft_xmalloc(sizeof(t_args*) * argc + 1)
-	// dirs[argc] = 0;
-	
-	make_fullscreen();
+	max_len = 0;
 	list = save_arguments(&max_len, argc, argv);
 	save_for_exit(list, 1);
 	resize_monitor(list, argc, max_len, &flag);
 	result = read_commands(&list, &flag);
-	reset_terminal_mode();
 	if (list != NULL)
 		free_arguments(list);
-	//освободить dirs
 	return (result);
 }
 
