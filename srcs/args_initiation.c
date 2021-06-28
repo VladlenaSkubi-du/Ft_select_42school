@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_initiation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vladlenaskubis <vladlenaskubis@student.    +#+  +:+       +#+        */
+/*   By: a18979859 <a18979859@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 17:31:44 by sschmele          #+#    #+#             */
-/*   Updated: 2020/01/05 16:06:18 by vladlenasku      ###   ########.fr       */
+/*   Updated: 2021/06/23 22:55:42 by a18979859        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,10 @@ t_args			*init_first_argument(const char *argument)
 	list->len = ft_strlen(argument);
 	list->next = list;
 	list->prev = list;
-	list->down = list;
+	list->up = NULL;
 	list->selected = 0;
 	list->underline = 1;
+	list->down = 0;
 	list->x = 0;
 	list->y = 0;
 	return (list);
@@ -65,6 +66,7 @@ void			init_next_argument(t_args *current,
 	tmp->len = ft_strlen(argument);
 	tmp->selected = 0;
 	tmp->underline = 0;
+	tmp->down = 0;
 	tmp->x = 0;
 	tmp->y = 0;
 	if (flag == 1)
@@ -81,5 +83,5 @@ void			init_next_argument(t_args *current,
 		save->prev = tmp;
 	}
 	current->next = tmp;
-	tmp->down = tmp;
+	tmp->up = NULL;
 }

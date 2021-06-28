@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   globals_forbidden.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: a18979859 <a18979859@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 12:12:03 by sschmele          #+#    #+#             */
-/*   Updated: 2021/06/21 21:27:38 by sschmele         ###   ########.fr       */
+/*   Updated: 2021/06/23 23:29:57 by a18979859        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void						save_for_exit(t_args *list, int flag)
 	{
 		reset_terminal_mode();
 		reset_canonical_input();
-		ft_putstr_fd(((flag == 0) ? "^C\n" : "^\\\n"), 1);
+		ft_putstr_fd(((flag == 0) ? "^C\n" : "^\\\n"), STDOUT_FILENO);
 	}
 }
 

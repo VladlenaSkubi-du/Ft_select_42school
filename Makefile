@@ -4,6 +4,7 @@ FLAGS = -Wall #-Werror -Wextra
 FLAGS += -g
 
 SOURCES =	main.c \
+			main_start_finish.c \
 			terminal_changes.c \
 			globals_forbidden.c \
 			signals_processing.c \

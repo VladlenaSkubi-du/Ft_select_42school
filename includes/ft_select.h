@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_select.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sschmele <sschmele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: a18979859 <a18979859@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 14:42:08 by sschmele          #+#    #+#             */
-/*   Updated: 2021/06/21 21:22:00 by sschmele         ###   ########.fr       */
+/*   Updated: 2021/06/23 23:32:00 by a18979859        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,35 @@ typedef struct		s_args
 	char			*arg;
 	short			selected;
 	short			underline;
+	short			down;
 	unsigned int	x;
 	unsigned int	y;
 	size_t			len;
 	struct s_args	*next;
 	struct s_args	*prev;
-	struct s_args	*down;
-	struct s_args	*up;
+	struct s_args	*up; //delete because it is uppest list for each file
 }					t_args;
+
+typedef struct		s_celldata
+{
+	t_args			*list;
+	t_args			*upper_list;
+	size_t			max_len;
+	int				argc;
+}					t_celldata;
 
 /*
 ** File main.c
 */
 
 char				**prepare_arguments(int *argc, char **argv);
+int					before_start(void);
+int					before_finish(void);
+
+/*
+** File main_start_finish.c
+*/
+
 char				*main_start_selection(int argc, const char **argv);
 char				*generate_selected_line(t_args *list, char *result);
 char				**find_selected(t_args *list, int *total, size_t *j);
